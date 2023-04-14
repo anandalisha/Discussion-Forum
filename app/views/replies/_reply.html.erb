@@ -1,0 +1,57 @@
+<div style="background-image: url('https://wallpaper.dog/large/10737479.jpg'); background-repeat: none;">
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-48x48">
+        <%= gravatar_image_tag(reply.user.email, class: 'border-radius-50', size: 48, alt: reply.user.username) %>
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><%= reply.user.username %></strong> <small><%= time_ago_in_words(reply.created_at) %></small>
+          <br/>
+          <%= markdown(reply.reply) %>
+        </p>
+
+
+     
+      <div class="reply-form">
+        <%= render partial: 'replies/form', locals: {discussion: reply.discussion, parent: reply} %>
+      </div>
+
+      <%= render partial: 'likes/button', locals: { likeable: reply } %>
+
+    
+
+      </div>
+      <% if reply_author(reply) || has_role?(:admin) %>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <a class="level-item">
+            <%= link_to edit_discussion_reply_path(reply.discussion, reply) do %>
+            <span class="icon is-small"><i class="fa fa-pencil"></i></span>
+            <% end %>
+          </a>
+          <a class="level-item">
+            <%= link_to [reply.discussion, reply],
+                method: :delete, data: {confirm: "Are you sure ?" } do %>
+            <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+            <% end %>
+          </a>
+        </div>
+      </nav>
+      <% end %>
+    </div>
+  </article>
+</div>
+</div>
+
+<script>
+  document.querySelectorAll('.reply-form-display').forEach((el) =>
+    el.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      el.nextElementSibling.style = 'display: block;'
+    })
+  )
+</script>

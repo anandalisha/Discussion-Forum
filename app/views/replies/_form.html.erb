@@ -1,0 +1,18 @@
+<div style="background-image: url('https://wallpaper.dog/large/10737479.jpg'); background-repeat: none;">
+<%= simple_form_for([@discussion, @discussion.replies.build], remote: true) do |f| %>
+
+<% if !parent.nil? %>
+  <input type="hidden" name="reply[parent_id]" value="<%= parent.id%>">
+<% end %>
+
+
+<div class="field">
+  <div class="control">
+    <%= f.input :reply, input_html: { class: 'textarea' }, wrapper: false, label_html: { class: 'label' } %>
+  </div>
+</div>
+
+<%= f.button :submit, 'Leave a reply', class:'button is-primary' %>
+
+<% end %>
+</div>
